@@ -1,0 +1,81 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PdfFormFiller",
+    "description": "Allows filling and retrieving data from selected forms. (DEV VERSION)",
+    "version": "0.1"
+  },
+  "host": "restpdfformfiller-dev.azurewebsites.net",
+  "basePath": "/api/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/GetXfaData": {
+      "post": {
+        "responses": {
+          "400": {
+            "description": "Bad request."
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "title": "formData",
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Get XFA Form Data",
+        "description": "Gets the data from the given XFA form.",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "operationId": "GetXfaData",
+        "parameters": [
+          {
+            "name": "format",
+            "default": "json",
+            "enum": [
+              "json",
+              "xml"
+            ],
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fileContent",
+            "description": "File content in base64 (use body/$content from SharePoint Get file action)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "API Key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-functions-key"
+    }
+  },
+  "security": [
+    {
+      "API Key": []
+    }
+  ],
+  "tags": []
+}
