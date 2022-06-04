@@ -1,2 +1,3 @@
 # PdfFormFillerConnector
-Power Automate custom connector definition for RestPdfFormFiller
+
+The accompanying Power Automate custom connector for https://github.com/dkontyko/RestPdfFormFiller.
