@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "PdfFormFiller",
+    "title": "PdfFormFiller2",
     "description": "Allows filling and retrieving data from selected forms. (DEV VERSION)",
     "version": "0.1"
   },
@@ -10,8 +10,14 @@
   "schemes": [
     "https"
   ],
-  "consumes": [],
-  "produces": [],
+  "consumes": [
+    "text/plain",
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
   "paths": {
     "/GetXfaData": {
       "post": {
@@ -50,7 +56,7 @@
             "type": "string"
           },
           {
-            "name": "fileContent",
+            "name": "pdfContentBase64",
             "description": "File content in base64 (use body/$content from SharePoint Get file action)",
             "in": "body",
             "required": true,
@@ -59,6 +65,100 @@
             }
           }
         ]
+      }
+    },
+    "/FillXfaData": {
+      "post": {
+        "responses": {
+          "400": {
+            "description": "Bad request."
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "title": "formData",
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Fill XFA Form Data",
+        "description": "Fills the specified data into the given PDF/XFAF form.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/pdf"
+        ],
+        "operationId": "FillXfaData",
+        "parameters": [
+          {
+            "name": "bodyData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pdfContentBase64": {
+                  "description": "The PDF content in base64 (use SharePoint Get item body/$content).",
+                  "type": "string",
+                  "format": "bytes"
+                }
+              },
+              "x-ms-dynamic-schema": {
+                "operationId": "GetXfaFormSchema",
+                "parameters": {
+                  "bodyData": {
+                    "parameter": "pdfContentBase64"
+                  }
+                }
+              },
+              "x-ms-dynamic-properties": {
+                "operationId": "GetXfaFormSchema",
+                "parameters": {
+                  "bodyData": {
+                    "parameterReference": "bodyData/pdfContentBase64"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/GetXfaFormSchema": {
+      "post": {
+        "responses": {
+          "400": {
+            "description": "Bad request."
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "title": "formSchema",
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Get XFA Form Schema",
+        "description": "Gets JSON schema of datasets from given PDF document.",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bodyData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "GetXfaFormSchema",
+        "x-ms-visibility": "internal"
       }
     }
   },
