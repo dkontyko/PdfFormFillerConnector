@@ -1,5 +1,7 @@
 # PdfFormFillerConnector
 
+Moved to https://github.com/dkontyko/RestPdfFormFiller/tree/main/CustomConnector.
+
 The accompanying Power Automate custom connector for https://github.com/dkontyko/RestPdfFormFiller.
 
 
